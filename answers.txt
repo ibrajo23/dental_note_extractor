@@ -1,0 +1,37 @@
+26 | FDI | deep caries | direct pulp capping
+16 | FDI | incipient caries | none
+12 | FDI | class v caries | simple composite restoration
+8 | Universal | broken | RCT; crown
+28 | FDI | partially erupted | surgical extraction
+1 | Universal | grossly carious | extracted
+14 | FDI | mesial caries | composite restoration
+22 | FDI | bone loss around more than half length of the root | root surface debridement
+21 | FDI | mobile stage 3 | extracted
+36 | FDI | deep caries reach pulp | pulpotomy
+45 | FDI | reversible pulpitis | class 2 restoration
+11 | FDI | mesial class 3 cavity | composite restoration
+2 , 3 | Universal | deep cavity | amalgam restoration
+14 , 15 | Universal | deep cavity | GIC restoration
+31 , 32 , 41 , 42 | FDI | heavy calculus | scaling 
+11 | FDI | class 4 cavity | composite restoration
+35 | FDI | high point restoration | polishing
+16 | FDI | failed RCT | Re-RCT
+24 | Universal | class 3 distaly cavity | composite restoration
+16 | Universal | not stated | restoration
+15 | FDI | RCTed | crown placement
+15 , 16 , 17 | FDI | missing 16 | prepared 15 and 16 as abutments for fixed bridge
+12 | FDI | class 3 cavity | temporary filling is placed
+31 | Universal | incipient caries | none
+33 | FDI | irreversible pulpitis | RCT
+11 | Universal | necrotic tooth with abscess | access for RCT 
+41 | FDI  | class v cavity | composite restoration 
+11 , 21 | FDI | class V cavity | composite restoration
+31 , 32 , 41 , 42 | FDI | mobility grade 3 | extraction
+12 , 22 | FDI | necrotic pulp; tender to percussion | root canal treatment
+13 | FDI | palatally erupting | orthodontic band with wire to pull
+54 | FDI | deep cavity | pulpotomy
+71 , 72 , 81 , 82 | FDI | mobile, ready to exfoliate | none
+48 | FDI | pericoronitis | surgical extraction
+unknown | n/a | generalized gingivitis | scaling
+14 , 24 , 34 , 44 | FDI | severe crowding | extraction
+11 | FDI | trauma | splinting

@@ -85,3 +85,5 @@ unknown | n/a | edentulous maxilla | complete denture try-in
 1 , 16 | Universal | wisdom teeth | extraction
 unknown | n/a | none | none
 34 | FDI | retained root | extraction
+74 , 84 | FDI | retained primary first molar | extraction
+54 , 85 | FDI | not stated | pulpotomy; stainless steel crown

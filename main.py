@@ -104,6 +104,32 @@ def find_teeth_by_position(text):
     return teeth, text
 
 
+def find_teeth_by_letter(text):
+    """Baby teeth written with letters, e.g. 'upper right d' -> 54,
+    'lower right e' -> 85. Letters: a=1 b=2 c=3 d=4 e=5 (central incisor to
+    second molar). Only b-e are read, because a lone 'a' is usually just the
+    English word 'a'. If no side is given ('lower d'), both sides are returned."""
+    teeth = []
+    letter_pos = {"b": 2, "c": 3, "d": 4, "e": 5}
+
+    def add(jaw, side, letter):
+        teeth.append(f"{DECIDUOUS_QUADRANT[(jaw, side)]}{letter_pos[letter]}")
+        return " "
+
+    text = re.sub(r"\b(upper|lower)\s+(right|left)\s+([b-e])\b",
+                  lambda m: add(m.group(1), m.group(2), m.group(3)), text)
+    text = re.sub(r"\b(right|left)\s+(upper|lower)\s+([b-e])\b",
+                  lambda m: add(m.group(2), m.group(1), m.group(3)), text)
+
+    def add_both_sides(m):
+        add(m.group(1), "right", m.group(2))
+        add(m.group(1), "left", m.group(2))
+        return " "
+
+    text = re.sub(r"\b(upper|lower)\s+([b-e])\b", add_both_sides, text)
+    return teeth, text
+
+
 def find_teeth(note):
     text = normalize(note)
 
@@ -117,6 +143,10 @@ def find_teeth(note):
 
     # 2) Shorthand like "lower right 6"
     teeth, text = find_teeth_by_position(text)
+
+    # 2b) Baby teeth written as letters, like "upper right d"
+    letter_teeth, text = find_teeth_by_letter(text)
+    teeth += letter_teeth
 
     # 3) Normal tooth numbers
     teeth += re.findall(r"\d+", text)

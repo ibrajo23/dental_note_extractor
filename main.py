@@ -47,6 +47,7 @@ def normalize(note):
     """Lowercase, fix spelling variants, turn 3rd -> third, remove plurals."""
     text = note.lower()
     text = re.sub(r"\bdecidou?s\b|\bdeciduous\b|\bprimary\b|\bbaby\b", "deciduous", text)
+    text = re.sub(r"\b(permanent|adult)\s+", "", text)
     text = re.sub(r"\b1st\b", "first", text)
     text = re.sub(r"\b2nd\b", "second", text)
     text = re.sub(r"\b3rd\b", "third", text)
@@ -85,13 +86,42 @@ def find_teeth_by_name(note):
     return [f"{table[q]}{p}" for q in quadrants for p in positions]
 
 
-def find_teeth(note):
-    # 1) Remove "class 2", "stage 3", "grade 3" so they are not read as teeth
-    text = normalize(note)
-    cleaned = re.sub(r"(class|stage|grade)\s*\d+", "", text)
-    teeth = re.findall(r"\d+", cleaned)
+def find_teeth_by_position(text):
+    """Handle shorthand like 'lower right 6' -> 46, 'upper left 7' -> 27.
+    Returns the FDI numbers found and the text with those phrases removed."""
+    deciduous = "deciduous" in text
+    table = DECIDUOUS_QUADRANT if deciduous else PERMANENT_QUADRANT
+    teeth = []
 
-    # 2) If there are no digits, look for tooth names instead
+    def add(jaw, side, position):
+        teeth.append(f"{table[(jaw, side)]}{position}")
+        return " "  # remove the phrase so the digit is not counted twice
+
+    text = re.sub(r"\b(upper|lower)\s+(right|left)\s+([1-8])\b",
+                  lambda m: add(m.group(1), m.group(2), m.group(3)), text)
+    text = re.sub(r"\b(right|left)\s+(upper|lower)\s+([1-8])\b",
+                  lambda m: add(m.group(2), m.group(1), m.group(3)), text)
+    return teeth, text
+
+
+def find_teeth(note):
+    text = normalize(note)
+
+    # 1) Remove numbers that are NOT tooth numbers:
+    #    "class 2", "stage 3", "grade 3"
+    text = re.sub(r"(class|stage|grade)\s*\d+", " ", text)
+    #    ages: "8 year old", "45 years old", "6 yo"
+    text = re.sub(r"\d+\s*(years?|yrs?|yo|y/o|months?|weeks?)\b(\s*old)?", " ", text)
+    #    digits stuck to letters: "MB2", "mm2", "12mm"
+    text = re.sub(r"\b[a-z]+\d+\b|\b\d+[a-z]+\b", " ", text)
+
+    # 2) Shorthand like "lower right 6"
+    teeth, text = find_teeth_by_position(text)
+
+    # 3) Normal tooth numbers
+    teeth += re.findall(r"\d+", text)
+
+    # 4) If there are no digits, look for tooth names instead
     if not teeth:
         teeth = find_teeth_by_name(note)
 

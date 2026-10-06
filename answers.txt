@@ -35,3 +35,53 @@
 unknown | n/a | generalized gingivitis | scaling
 14 , 24 , 34 , 44 | FDI | severe crowding | extraction
 11 | FDI | trauma | splinting
+46 | FDI | occlusal caries | amalgam restoration
+24 | FDI | fractured cusp | composite restoration
+17 | FDI | pericoronitis | irrigation; antibiotics prescribed
+16 | FDI | irreversible pulpitis | root canal treatment
+35 | FDI | orthodontic indication | extraction
+31 , 41 | FDI | mobility grade 2 | splinting
+unknown | n/a | generalized gingivitis | oral hygiene instruction; scaling
+36 | FDI | root canal treated | root canal obturation; crown preparation
+11 , 21 | FDI | diastema | composite restoration
+25 | FDI | class 2 cavity | composite restoration
+48 | FDI | horizontal impaction | surgical extraction
+46 | FDI | deep caries | indirect pulp capping
+75 | FDI | caries | stainless steel crown
+22 | FDI | peg shaped lateral incisor | composite restoration
+13 , 23 | FDI | impacted canines | referral to oral surgeon
+27 | FDI | supraerupted, no antagonist | none
+unknown | n/a | generalized periodontitis stage 3 | scaling and root planing
+34 , 35 | FDI | class 1 caries | amalgam restoration
+16 | FDI | recurrent caries | crown replacement
+11 | FDI | avulsion | replantation; splinting
+38 | FDI | pericoronitis | extraction
+36 , 46 | FDI | deep occlusal caries | GIC temporary restoration
+11 , 12 , 21 , 22 | FDI | esthetic | veneer preparation
+44 | FDI | hypersensitivity | fluoride varnish
+9 | Universal | fractured crown | root canal treatment; post
+23 | FDI | class v caries | GIC restoration
+15 | FDI | distal caries | composite restoration
+unknown | n/a | bruxism | impression for night guard
+21 | FDI | non vital discoloration | internal bleaching
+28 | FDI | partially erupted | extraction
+14 | FDI | failing amalgam | composite restoration
+45 , 46 , 47 | FDI | missing teeth | partial denture advised
+unknown | n/a | undetermined toothache | radiograph advised
+55 | FDI | carious pulp exposure | pulpectomy
+31 , 32 , 33 , 41 , 42 , 43 | FDI | heavy calculus | scaling
+22 | FDI | gingival recession miller class 2 | none
+37 | FDI | distal caries | composite restoration
+18 , 28 , 38 , 48 | FDI | orthodontic indication | extraction advised
+16 | FDI | root canal treatment in progress | root canal treatment
+11 | FDI | uncomplicated crown fracture | composite restoration
+33 , 34 | FDI | class 5 cavity | GIC restoration
+16 | FDI | caries prevention | fissure sealant
+26 | FDI | oroantral communication | primary closure
+36 | FDI | deep caries | root canal treatment
+43 | FDI | gingival abscess | incision and drainage
+12 | FDI | palatal cingulum caries | composite restoration
+unknown | n/a | edentulous maxilla | complete denture try-in
+1 , 16 | Universal | wisdom teeth | extraction
+unknown | n/a | none | none
+34 | FDI | retained root | extraction

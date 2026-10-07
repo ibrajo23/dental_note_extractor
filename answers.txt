@@ -87,3 +87,23 @@ unknown | n/a | none | none
 34 | FDI | retained root | extraction
 74 , 84 | FDI | retained primary first molar | extraction
 54 , 85 | FDI | not stated | pulpotomy; stainless steel crown
+16 | FDI | deep distal caries | root canal treatment
+37 , 38 | FDI | periodontal abscess | extraction
+24 | FDI | root canal treated | post and core placement
+18 | FDI | not stated | extraction
+15 | FDI | mesial occlusal caries | composite restoration
+35 | FDI | gingival recession; cold sensitivity | desensitizing agent
+6 , 7 , 8 , 9 , 10 , 11 | Universal | esthetic | composite veneer
+unknown | n/a | bleeding on probing | scaling; polishing; oral hygiene instruction
+46 | FDI | missing tooth | implant placement; healing cap
+44 | FDI | crowding | extraction
+11 | FDI | trauma follow up | splint removal
+21 | FDI | chipped | composite restoration
+16 , 26 | FDI | caries prevention | fissure sealant
+36 , 46 | FDI | erupting first molars | fissure sealant
+47 | FDI | abscess | incision and drainage; antibiotics prescribed
+12 , 13 , 14 | FDI | high caries risk | fluoride varnish
+53 | FDI | retained primary canine | extraction
+25 , 26 , 27 | FDI | missing teeth | partial denture impression
+unknown | n/a | undetermined pain | panoramic radiograph
+unknown | n/a | discoloration | bleaching trays delivered

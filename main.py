@@ -15,11 +15,16 @@ DECIDUOUS_QUADRANT = {
     ("lower", "left"): 7, ("lower", "right"): 8,
 }
 
+# Short quadrant codes: UR6 = upper right 6 = FDI 16
+ABBREVIATION_QUADRANT = {"ur": 1, "ul": 2, "ll": 3, "lr": 4}
+
 # Tooth type -> position numbers. Longer phrases come first on purpose.
 PERMANENT_TYPES = [
     ("central incisor", [1]),
     ("lateral incisor", [2]),
     ("incisor", [1, 2]),
+    ("central", [1]),   # "upper left central" (needs a jaw word, see below)
+    ("lateral", [2]),
     ("canine", [3]),
     ("cuspid", [3]),
     ("first premolar", [4]),
@@ -35,6 +40,8 @@ DECIDUOUS_TYPES = [
     ("central incisor", [1]),
     ("lateral incisor", [2]),
     ("incisor", [1, 2]),
+    ("central", [1]),
+    ("lateral", [2]),
     ("canine", [3]),
     ("cuspid", [3]),
     ("first molar", [4]),
@@ -75,32 +82,56 @@ def find_teeth_by_name(note):
 
     types = DECIDUOUS_TYPES if deciduous else PERMANENT_TYPES
     positions = []
+    matched_phrase = None
     for phrase, nums in types:
         if phrase in text:
             positions = nums
+            matched_phrase = phrase
             break  # first (longest) match wins
     if not positions:
         return []
+
+    # A bare "central" or "lateral" is too vague on its own (it could be
+    # "lateral periodontal abscess"), so we only trust it next to a jaw word.
+    if matched_phrase in ("central", "lateral"):
+        if not re.search(r"\b(upper|lower)\b", text):
+            return []
 
     table = DECIDUOUS_QUADRANT if deciduous else PERMANENT_QUADRANT
     return [f"{table[q]}{p}" for q in quadrants for p in positions]
 
 
 def find_teeth_by_position(text):
-    """Handle shorthand like 'lower right 6' -> 46, 'upper left 7' -> 27.
-    Returns the FDI numbers found and the text with those phrases removed."""
+    """Handle shorthand like 'lower right 6' -> 46, 'upper left 5 6 7' ->
+    25, 26, 27. Returns the FDI numbers found and the text with those
+    phrases removed."""
     deciduous = "deciduous" in text
     table = DECIDUOUS_QUADRANT if deciduous else PERMANENT_QUADRANT
     teeth = []
 
-    def add(jaw, side, position):
-        teeth.append(f"{table[(jaw, side)]}{position}")
-        return " "  # remove the phrase so the digit is not counted twice
+    def add(jaw, side, positions):
+        # positions can be several single digits: "5 6 7" or "6 and 7"
+        for position in re.findall(r"[1-8]", positions):
+            teeth.append(f"{table[(jaw, side)]}{position}")
+        return " "  # remove the phrase so the digits are not counted twice
 
-    text = re.sub(r"\b(upper|lower)\s+(right|left)\s+([1-8])\b",
+    digits = r"([1-8](?:\s*(?:,|and|&)?\s*[1-8])*)\b"
+    text = re.sub(rf"\b(upper|lower)\s+(right|left)\s+{digits}",
                   lambda m: add(m.group(1), m.group(2), m.group(3)), text)
-    text = re.sub(r"\b(right|left)\s+(upper|lower)\s+([1-8])\b",
+    text = re.sub(rf"\b(right|left)\s+(upper|lower)\s+{digits}",
                   lambda m: add(m.group(2), m.group(1), m.group(3)), text)
+    return teeth, text
+
+
+def find_teeth_by_abbreviation(text):
+    """Handle quadrant codes like 'UR6' -> 16, 'LL7 and LL8' -> 37, 38."""
+    teeth = []
+
+    def add(m):
+        teeth.append(f"{ABBREVIATION_QUADRANT[m.group(1)]}{m.group(2)}")
+        return " "
+
+    text = re.sub(r"\b(ur|ul|ll|lr)\s?([1-8])\b", add, text)
     return teeth, text
 
 
@@ -138,20 +169,30 @@ def find_teeth(note):
     text = re.sub(r"(class|stage|grade)\s*\d+", " ", text)
     #    ages: "8 year old", "45 years old", "6 yo"
     text = re.sub(r"\d+\s*(years?|yrs?|yo|y/o|months?|weeks?)\b(\s*old)?", " ", text)
-    #    digits stuck to letters: "MB2", "mm2", "12mm"
+    #    doses and measurements: "2%", "1.8 ml", "500 mg", "5 mm"
+    text = re.sub(r"\d+(?:\.\d+)?\s*(?:%|(?:ml|mg|mcg|mm|cm|cc|g)\b)", " ", text)
+    #    any decimal number, like "1.8"
+    text = re.sub(r"\d+\.\d+", " ", text)
+
+    # 2) Quadrant codes like "UR6" (before the letters+digits rule below,
+    #    which would otherwise throw "ur6" away)
+    teeth, text = find_teeth_by_abbreviation(text)
+
+    #    digits stuck to letters: "MB2", "mm2", "12mm", "A2"
     text = re.sub(r"\b[a-z]+\d+\b|\b\d+[a-z]+\b", " ", text)
 
-    # 2) Shorthand like "lower right 6"
-    teeth, text = find_teeth_by_position(text)
+    # 3) Shorthand like "lower right 6" or "upper left 5 6 7"
+    position_teeth, text = find_teeth_by_position(text)
+    teeth += position_teeth
 
-    # 2b) Baby teeth written as letters, like "upper right d"
+    # 3b) Baby teeth written as letters, like "upper right d"
     letter_teeth, text = find_teeth_by_letter(text)
     teeth += letter_teeth
 
-    # 3) Normal tooth numbers
+    # 4) Normal tooth numbers
     teeth += re.findall(r"\d+", text)
 
-    # 4) If there are no digits, look for tooth names instead
+    # 5) If there are no digits, look for tooth names instead
     if not teeth:
         teeth = find_teeth_by_name(note)
 

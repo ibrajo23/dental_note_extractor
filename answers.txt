@@ -107,3 +107,23 @@ unknown | n/a | bleeding on probing | scaling; polishing; oral hygiene instructi
 25 , 26 , 27 | FDI | missing teeth | partial denture impression
 unknown | n/a | undetermined pain | panoramic radiograph
 unknown | n/a | discoloration | bleaching trays delivered
+14 | FDI | mesio-occlusal caries | composite restoration
+36 , 37 | FDI | occlusal caries | amalgam restoration
+11 , 12 , 21 , 22 | FDI | gummy smile | gingivectomy
+65 | FDI | exfoliating primary second molar | extraction
+46 | FDI | intact amalgam; no caries | none
+18 , 28 , 38 , 48 | FDI | impacted; extraction planned | none
+45 | FDI | calcified canals | root canal treatment
+27 | FDI | caries | restoration
+25 | FDI | vertical root fracture | extraction
+41 | FDI | gingival recession | gingival graft
+13 , 23 | FDI | impacted canines | CBCT advised
+21 | FDI | prepared tooth | temporary crown cementation
+75 | FDI | abscess | extraction
+16 , 46 | FDI | high spots | occlusal adjustment
+22 | FDI | periapical lesion | root canal retreatment
+8 , 9 | Universal | caries | extraction
+54 , 55 , 64 , 65 , 74 , 75 , 84 , 85 | FDI | rampant caries | none
+48 | FDI | healing normal | suture removal
+unknown | n/a | sore spot | denture adjustment
+18 , 48 | FDI | not stated | extraction

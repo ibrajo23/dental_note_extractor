@@ -53,12 +53,17 @@ DECIDUOUS_TYPES = [
 def normalize(note):
     """Lowercase, fix spelling variants, turn 3rd -> third, remove plurals."""
     text = note.lower()
-    text = re.sub(r"\bdecidou?s\b|\bdeciduous\b|\bprimary\b|\bbaby\b", "deciduous", text)
+    # Baby-tooth words are taken out of where they sit and replaced by one
+    # marker at the end, so "second primary molar" becomes "second molar".
+    baby_words = r"\bdecidou?s\b|\bdeciduous\b|\bprimary\b|\bbaby\b"
+    if re.search(baby_words, text):
+        text = re.sub(baby_words, " ", text) + " deciduous"
     text = re.sub(r"\b(permanent|adult)\s+", "", text)
     text = re.sub(r"\b1st\b", "first", text)
     text = re.sub(r"\b2nd\b", "second", text)
     text = re.sub(r"\b3rd\b", "third", text)
     text = re.sub(r"\b(incisor|molar|premolar|canine|cuspid)s\b", r"\1", text)
+    text = re.sub(r"\s+", " ", text)  # collapse double spaces
     return text
 
 
@@ -68,12 +73,13 @@ def find_teeth_by_name(note):
 
     # Side only counts when it sits next to the jaw word ("lower right"),
     # so words like "left untreated" are not mistaken for a side.
-    pair = re.search(r"\b(upper|lower)\s+(right|left)\b", text)
-    pair_rev = re.search(r"\b(right|left)\s+(upper|lower)\b", text)
-    if pair:
-        quadrants = [(pair.group(1), pair.group(2))]
-    elif pair_rev:
-        quadrants = [(pair_rev.group(2), pair_rev.group(1))]
+    # A note can name more than one: "upper right and lower right third molars"
+    pairs = re.findall(r"\b(upper|lower)\s+(right|left)\b", text)
+    pairs += [(jaw, side) for side, jaw in
+              re.findall(r"\b(right|left)\s+(upper|lower)\b", text)]
+    pairs = list(dict.fromkeys(pairs))  # remove duplicates, keep order
+    if pairs:
+        quadrants = pairs
     else:
         jaws = [j for j in ("upper", "lower") if re.search(rf"\b{j}\b", text)]
         if not jaws:
@@ -109,16 +115,21 @@ def find_teeth_by_position(text):
     table = DECIDUOUS_QUADRANT if deciduous else PERMANENT_QUADRANT
     teeth = []
 
+    # The side can be a full word or a short form: right / rt / r, left / lt / l
+    side_names = {"right": "right", "rt": "right", "r": "right",
+                  "left": "left", "lt": "left", "l": "left"}
+    side_words = r"(right|left|rt|lt|r|l)"
+
     def add(jaw, side, positions):
         # positions can be several single digits: "5 6 7" or "6 and 7"
         for position in re.findall(r"[1-8]", positions):
-            teeth.append(f"{table[(jaw, side)]}{position}")
+            teeth.append(f"{table[(jaw, side_names[side])]}{position}")
         return " "  # remove the phrase so the digits are not counted twice
 
     digits = r"([1-8](?:\s*(?:,|and|&)?\s*[1-8])*)\b"
-    text = re.sub(rf"\b(upper|lower)\s+(right|left)\s+{digits}",
+    text = re.sub(rf"\b(upper|lower)\s+{side_words}\s+{digits}",
                   lambda m: add(m.group(1), m.group(2), m.group(3)), text)
-    text = re.sub(rf"\b(right|left)\s+(upper|lower)\s+{digits}",
+    text = re.sub(rf"\b{side_words}\s+(upper|lower)\s+{digits}",
                   lambda m: add(m.group(2), m.group(1), m.group(3)), text)
     return teeth, text
 

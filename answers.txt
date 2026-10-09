@@ -127,3 +127,23 @@ unknown | n/a | discoloration | bleaching trays delivered
 48 | FDI | healing normal | suture removal
 unknown | n/a | sore spot | denture adjustment
 18 , 48 | FDI | not stated | extraction
+26 | FDI | failed amalgam | onlay preparation
+36 , 37 | FDI | open contact; food impaction | composite restoration
+48 | FDI | pericoronitis | irrigation
+12 | FDI | dens invaginatus | composite restoration
+13 , 14 , 15 , 23 , 24 , 25 | FDI | tooth wear; bruxism | composite restoration
+16 , 26 , 36 , 46 | FDI | caries prevention | fissure sealant
+38 | FDI | pericoronitis | operculectomy
+85 | FDI | not stated | pulpectomy
+21 | FDI | not stated | post and core placement; impression for crown
+36 | FDI | vertical fracture; hopeless | extraction
+43 | FDI | gingival abscess | drainage
+31 , 32 , 41 , 42 | FDI | crowding | interproximal reduction
+4 , 13 | Universal | not stated | root canal treatment
+11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 | FDI | not stated | scaling and root planing
+34 | FDI | distal caries near pulp | indirect pulp capping; GIC restoration
+11 , 21 | FDI | crowding | none
+15 | FDI | lost temporary filling | temporary filling replacement
+47 | FDI | occlusal caries | none
+unknown | n/a | traumatic ulcer of lower lip | topical gel
+55 , 65 , 75 , 85 | FDI | mobile primary molars | extraction
